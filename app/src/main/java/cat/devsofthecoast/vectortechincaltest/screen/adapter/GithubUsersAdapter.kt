@@ -1,10 +1,9 @@
 package cat.devsofthecoast.vectortechincaltest.screen.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import cat.devsofthecoast.vectortechincaltest.R
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.dw.LoadingDataWrapper
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.dw.UserDataWrapper
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.listener.GithubUsersListener
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.vh.LoadingViewHolder
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.vh.UserDataViewHolder
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.BaseAdapter
@@ -12,24 +11,17 @@ import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.dw.BaseDataWra
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.vh.BaseViewHolder
 
 class GithubUsersAdapter() :
-    BaseAdapter<BaseDataWrapper, BaseViewHolder<BaseDataWrapper>>() {
+    BaseAdapter<BaseDataWrapper, BaseViewHolder<BaseDataWrapper, GithubUsersListener>, GithubUsersListener>() {
 
     override val data: ArrayList<BaseDataWrapper> = arrayListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<BaseDataWrapper> {
+    ): BaseViewHolder<BaseDataWrapper, GithubUsersListener> {
         return when (viewType) {
-            VIEW_TYPE_LOADING -> LoadingViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.itemview_loading, null)
-            )
-            VIEW_TYPE_USERDATA -> UserDataViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.itemview_userdata, null)
-            )
-            else -> UserDataViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.itemview_userdata, null)
-            )
+            VIEW_TYPE_LOADING -> LoadingViewHolder(parent)
+            else -> UserDataViewHolder(parent)
         }
 
     }
@@ -40,7 +32,14 @@ class GithubUsersAdapter() :
         }
         data.addAll(userDataViewHolders)
         data.add(LoadingDataWrapper())
-        notifyItemRangeInserted(data.size - userDataViewHolders.size+1, userDataViewHolders.size+1)
+        notifyItemRangeInserted(
+            data.size - userDataViewHolders.size + 1,
+            userDataViewHolders.size + 1
+        )
+    }
+
+    fun setListener(listener: GithubUsersListener) {
+        this.listener = listener
     }
 
     companion object {

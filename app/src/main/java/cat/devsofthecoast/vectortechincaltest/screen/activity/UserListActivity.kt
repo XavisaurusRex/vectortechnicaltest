@@ -5,9 +5,10 @@ import cat.devsofthecoast.vectortechincaltest.common.di.presentation.Presentatio
 import cat.devsofthecoast.vectortechincaltest.databinding.ActivityUserListBinding
 import cat.devsofthecoast.vectortechincaltest.networking.GithubUsersRepository
 import cat.devsofthecoast.vectortechincaltest.networking.api.ApiUser
-import cat.devsofthecoast.vectortechincaltest.screen.base.activity.BaseActivity
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.GithubUsersAdapter
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.dw.UserDataWrapper
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.listener.GithubUsersListener
+import cat.devsofthecoast.vectortechincaltest.screen.base.activity.BaseActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 
-class UserListActivity : BaseActivity() {
+class UserListActivity : BaseActivity(), GithubUsersListener {
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
     private lateinit var binding: ActivityUserListBinding
@@ -33,8 +34,9 @@ class UserListActivity : BaseActivity() {
         binding = ActivityUserListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rcyGithubUsers.adapter = GithubUsersAdapter()
-
+        val adapter = GithubUsersAdapter()
+        binding.rcyGithubUsers.adapter = adapter
+        adapter.setListener(this)
         requestUsersData(0, 20)
 
     }
@@ -65,5 +67,17 @@ class UserListActivity : BaseActivity() {
                 Snackbar.make(binding.root, "ERROR...", Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onUserSelected(apiUser: ApiUser) {
+        Snackbar.make(
+            binding.root,
+            "USER -> " + apiUser.username + " Selected!",
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun loadMoreUsers(page: Int) {
+        requestUsersData(page, 20)
     }
 }
