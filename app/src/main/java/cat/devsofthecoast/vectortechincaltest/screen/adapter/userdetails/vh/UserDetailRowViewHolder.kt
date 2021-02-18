@@ -2,6 +2,7 @@ package cat.devsofthecoast.vectortechincaltest.screen.adapter.userdetails.vh
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import cat.devsofthecoast.vectortechincaltest.R
 import cat.devsofthecoast.vectortechincaltest.databinding.ItemviewUserDetailRowBinding
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userdetails.dw.UserDetailRowDataWrapper
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.listener.BaseAdapterListener
@@ -26,7 +27,12 @@ class UserDetailRowViewHolder(parent: ViewGroup) :
         position: Int
     ) {
         binding.tvTitle.text = dataWrapper.title
-        binding.tvSubtitle.text = dataWrapper.subtitle
+        if (dataWrapper.subtitle.isEmpty()) {
+            binding.tvSubtitle.text =
+                getString(R.string.itemview_userdetails_row_default_value_empty)
+        } else {
+            binding.tvSubtitle.text = dataWrapper.subtitle
+        }
 
     }
 }

@@ -46,16 +46,18 @@ class UserDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+
 
         binding.rcyUserDetails.adapter = UserDetailsAdapter()
 
         getUserIdFromExtras()?.let {
             requestUserDetails(it)
+            binding.toolbar.title = it
         }
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true);
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -79,11 +81,10 @@ class UserDetailsActivity : BaseActivity() {
                 )
             )
             val response: Response<ApiUserDetail> = withContext(Dispatchers.Default) {
-                Thread.sleep(5000)
                 githubUsersRepository.requestUserDetails(userId)
             }
             if (response.isSuccessful) {
-                onUserLoaded(response.body())
+                onUserLoaded(response.body()!!)
             } else {
                 Snackbar.make(binding.root, "Error has occurr...", Snackbar.LENGTH_SHORT).show()
             }
@@ -92,209 +93,300 @@ class UserDetailsActivity : BaseActivity() {
         }
     }
 
-    private fun onUserLoaded(apiUserDetail: ApiUserDetail?) {
+    private fun onUserLoaded(apiUserDetail: ApiUserDetail) {
 
         Glide.with(this)
-            .load(apiUserDetail?.avatarUrl)
+            .load(apiUserDetail.avatarUrl)
             .placeholder(R.drawable.progress_animation)
             .into(binding.ivUserAvatar)
 
-        binding.toolbar.title = apiUserDetail?.name
+        binding.toolbar.title = apiUserDetail.name
 
         val dataWrappers: ArrayList<UserDetailRowDataWrapper> = arrayListOf()
 
         dataWrappers.add(
             UserDetailRowDataWrapper(
                 getString(R.string.activity_user_detail_usenameid),
-                apiUserDetail?.usenameId
+                apiUserDetail.usenameId
             )
         )
+
         dataWrappers.add(
             UserDetailRowDataWrapper(
                 getString(R.string.activity_user_detail_id),
-                apiUserDetail?.id.toString()
+                apiUserDetail.id.toString()
             )
         )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_node_id),
-                apiUserDetail?.node_id
+
+        apiUserDetail.node_id?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_node_id),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_avatarurl),
-                apiUserDetail?.avatarUrl
+        }
+
+        apiUserDetail.avatarUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_avatarurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_gravatarid),
-                apiUserDetail?.gravatarId
+        }
+
+        apiUserDetail.gravatarId?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_gravatarid),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_url),
-                apiUserDetail?.url
+        }
+
+        apiUserDetail.url?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_url),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_htmlurl),
-                apiUserDetail?.htmlUrl
+        }
+
+        apiUserDetail.htmlUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_htmlurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_followersurl),
-                apiUserDetail?.followersUrl
+        }
+
+        apiUserDetail.followersUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_followersurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_followingurl),
-                apiUserDetail?.followingUrl
+        }
+
+        apiUserDetail.followingUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_followingurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_gistsurl),
-                apiUserDetail?.gistsUrl
+        }
+
+        apiUserDetail.gistsUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_gistsurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_starredurl),
-                apiUserDetail?.starredUrl
+        }
+
+        apiUserDetail.starredUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_starredurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_subscriptionsurl),
-                apiUserDetail?.subscriptionsUrl
+        }
+
+        apiUserDetail.subscriptionsUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_subscriptionsurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_organizationsurl),
-                apiUserDetail?.organizationsUrl
+        }
+
+        apiUserDetail.organizationsUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_organizationsurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_reposurl),
-                apiUserDetail?.reposUrl
+        }
+
+        apiUserDetail.reposUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_reposurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_eventsurl),
-                apiUserDetail?.eventsUrl
+        }
+
+        apiUserDetail.eventsUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_eventsurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_receivedeventsurl),
-                apiUserDetail?.receivedEventsUrl
+        }
+
+        apiUserDetail.receivedEventsUrl?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_receivedeventsurl),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_type),
-                apiUserDetail?.type
+        }
+
+        apiUserDetail.type?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_type),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_siteadmin),
-                apiUserDetail?.siteAdmin
+        }
+
+        apiUserDetail.siteAdmin?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_siteadmin),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_name),
-                apiUserDetail?.name
+        }
+
+        apiUserDetail.name?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_name),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_company),
-                apiUserDetail?.company
+        }
+
+        apiUserDetail.company?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_company),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_blog),
-                apiUserDetail?.blog
+        }
+
+        apiUserDetail.blog?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_blog),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_location),
-                apiUserDetail?.location
+        }
+
+        apiUserDetail.location?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_location),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_email),
-                apiUserDetail?.email
+        }
+
+        apiUserDetail.email?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_email),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_hireable),
-                apiUserDetail?.hireable
+        }
+
+        apiUserDetail.hireable?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_hireable),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_bio),
-                apiUserDetail?.bio
+        }
+
+        apiUserDetail.bio?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_bio),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_twitterusername),
-                apiUserDetail?.twitterUsername
+        }
+
+        apiUserDetail.twitterUsername?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_twitterusername),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_publicrepos),
-                apiUserDetail?.publicRepos
+        }
+
+        apiUserDetail.publicRepos?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_publicrepos),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_publicgists),
-                apiUserDetail?.publicGists
+        }
+
+        apiUserDetail.publicGists?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_publicgists),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_followers),
-                apiUserDetail?.followers
+        }
+
+        apiUserDetail.followers?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_followers),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_following),
-                apiUserDetail?.following
+        }
+
+        apiUserDetail.following?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_following),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_createdat),
-                apiUserDetail?.createdAt
+        }
+
+        apiUserDetail.createdAt?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_createdat),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
-        dataWrappers.add(
-            UserDetailRowDataWrapper(
-                getString(R.string.activity_user_detail_updatedat),
-                apiUserDetail?.updatedAt
+        }
+
+        apiUserDetail.updatedAt?.let {
+            dataWrappers.add(
+                UserDetailRowDataWrapper(
+                    getString(R.string.activity_user_detail_updatedat),
+                    if (it.isEmpty()) getString(R.string.itemview_userdetails_row_default_value_empty) else it
+                )
             )
-        )
+        }
 
         (binding.rcyUserDetails.adapter as UserDetailsAdapter).setData(dataWrappers)
     }
