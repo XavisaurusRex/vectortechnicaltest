@@ -19,7 +19,7 @@ abstract class BaseActivity : AppCompatActivity() {
         activityComponent.newPresentationComponent()
     }
 
-    protected val injector get() = presentationComponent
+    private val injector get() = presentationComponent
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

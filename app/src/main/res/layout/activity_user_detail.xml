@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:fitsSystemWindows="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/abc_vector_test"
+                android:src="@drawable/progress_animation"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed" />
 

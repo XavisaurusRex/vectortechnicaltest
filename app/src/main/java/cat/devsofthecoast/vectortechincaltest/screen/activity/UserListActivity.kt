@@ -1,15 +1,17 @@
 package cat.devsofthecoast.vectortechincaltest.screen.activity
 
 import android.os.Bundle
+import cat.devsofthecoast.vectortechincaltest.R
 import cat.devsofthecoast.vectortechincaltest.common.di.presentation.PresentationComponent
 import cat.devsofthecoast.vectortechincaltest.databinding.ActivityUserListBinding
 import cat.devsofthecoast.vectortechincaltest.networking.GithubUsersRepository
 import cat.devsofthecoast.vectortechincaltest.networking.api.ApiUser
-import cat.devsofthecoast.vectortechincaltest.screen.ScreensNavigator
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.GithubUsersAdapter
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.dw.UserDataWrapper
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.listener.GithubUsersListener
 import cat.devsofthecoast.vectortechincaltest.screen.base.activity.BaseActivity
+import cat.devsofthecoast.vectortechincaltest.screen.navigator.DialogsNavigator
+import cat.devsofthecoast.vectortechincaltest.screen.navigator.ScreensNavigator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +21,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class UserListActivity : BaseActivity(), GithubUsersListener {
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
     private lateinit var binding: ActivityUserListBinding
@@ -28,6 +31,9 @@ class UserListActivity : BaseActivity(), GithubUsersListener {
 
     @Inject
     lateinit var screensNavigator: ScreensNavigator
+
+    @Inject
+    lateinit var dialogsNavigator: DialogsNavigator
 
     override fun injectView(presentationComponent: PresentationComponent) {
         presentationComponent.inject(this)
@@ -41,44 +47,33 @@ class UserListActivity : BaseActivity(), GithubUsersListener {
         val adapter = GithubUsersAdapter()
         binding.rcyGithubUsers.adapter = adapter
         adapter.setListener(this)
-        requestUsersData(0, 20)
 
+        dialogsNavigator.showLoading(getString(R.string.dialog_userslist_loading_message))
+        requestUsersData(0, 100)
     }
 
     private fun requestUsersData(page: Int, itemsInPage: Int) {
         coroutineScope.launch {
 
-            Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_SHORT).show()
             val response: Response<List<ApiUser>> = withContext(Dispatchers.Default) {
                 githubUsersRepository.requestUserList(page, itemsInPage)
             }
             if (response.isSuccessful) {
-                Snackbar.make(binding.root, "LOADED USERS", Snackbar.LENGTH_SHORT).show()
-
-                response.body()?.also {
+                response.body()?.let {
                     val userDataWrappers: ArrayList<UserDataWrapper> = arrayListOf()
                     it.forEach { apiUser ->
                         userDataWrappers.add(UserDataWrapper(apiUser))
                     }
                     (binding.rcyGithubUsers.adapter as GithubUsersAdapter).addData(userDataWrappers)
-
                 }
-//                response.body()?.forEach {
-//
-//                    binding.tvMain.text.toString() + "\n USER -> " + it.username
-//                }
             } else {
                 Snackbar.make(binding.root, "ERROR...", Snackbar.LENGTH_SHORT).show()
             }
+            dialogsNavigator.hideLoading()
         }
     }
 
     override fun onUserSelected(apiUser: ApiUser) {
-        Snackbar.make(
-            binding.root,
-            "USER -> " + apiUser.username + " Selected!",
-            Snackbar.LENGTH_SHORT
-        ).show()
         screensNavigator.toUserDetails(apiUser.username)
     }
 

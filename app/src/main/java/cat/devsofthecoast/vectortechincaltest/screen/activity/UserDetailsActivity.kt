@@ -12,6 +12,8 @@ import cat.devsofthecoast.vectortechincaltest.networking.api.ApiUserDetail
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userdetails.UserDetailsAdapter
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userdetails.dw.UserDetailRowDataWrapper
 import cat.devsofthecoast.vectortechincaltest.screen.base.activity.BaseActivity
+import cat.devsofthecoast.vectortechincaltest.screen.navigator.DialogsNavigator
+import cat.devsofthecoast.vectortechincaltest.screen.navigator.ScreensNavigator
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +32,11 @@ class UserDetailsActivity : BaseActivity() {
     @Inject
     lateinit var githubUsersRepository: GithubUsersRepository
 
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
+
+    @Inject
+    lateinit var dialogsNavigator: DialogsNavigator
 
     override fun injectView(presentationComponent: PresentationComponent) {
         presentationComponent.inject(this)
@@ -53,7 +60,7 @@ class UserDetailsActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            onBackPressed()
+            screensNavigator.navigateBack()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -65,16 +72,23 @@ class UserDetailsActivity : BaseActivity() {
     private fun requestUserDetails(userId: String) {
         coroutineScope.launch {
 
-            Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_SHORT).show()
+            dialogsNavigator.showLoading(
+                String.format(
+                    getString(R.string.dialog_userdetails_loading_message),
+                    userId
+                )
+            )
             val response: Response<ApiUserDetail> = withContext(Dispatchers.Default) {
+                Thread.sleep(5000)
                 githubUsersRepository.requestUserDetails(userId)
             }
             if (response.isSuccessful) {
-                Snackbar.make(binding.root, "LOADED USER DETAILS", Snackbar.LENGTH_SHORT).show()
                 onUserLoaded(response.body())
             } else {
-                Snackbar.make(binding.root, "ERROR...", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Error has occurr...", Snackbar.LENGTH_SHORT).show()
             }
+            dialogsNavigator.hideLoading()
+
         }
     }
 
@@ -82,6 +96,7 @@ class UserDetailsActivity : BaseActivity() {
 
         Glide.with(this)
             .load(apiUserDetail?.avatarUrl)
+            .placeholder(R.drawable.progress_animation)
             .into(binding.ivUserAvatar)
 
         binding.toolbar.title = apiUserDetail?.name

@@ -1,9 +1,9 @@
-package cat.devsofthecoast.vectortechincaltest.screen
+package cat.devsofthecoast.vectortechincaltest.screen.navigator
 
 import androidx.appcompat.app.AppCompatActivity
 import cat.devsofthecoast.vectortechincaltest.screen.activity.UserDetailsActivity
 
-class ScreensNavigator (private val activity: AppCompatActivity) {
+class ScreensNavigator(private val activity: AppCompatActivity) {
 
     fun navigateBack() {
         activity.onBackPressed()

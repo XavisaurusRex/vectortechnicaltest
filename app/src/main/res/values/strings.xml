@@ -32,4 +32,7 @@
     <string name="activity_user_detail_following">following</string>
     <string name="activity_user_detail_createdat">created_at</string>
     <string name="activity_user_detail_updatedat">updated_at</string>
+    <string name="dialog_default_loading_message">Please wait…</string>
+    <string name="dialog_userslist_loading_message">Requesting users…</string>
+    <string name="dialog_userdetails_loading_message">Requesting %s details…</string>
 </resources>

@@ -2,6 +2,7 @@ package cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.vh
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import cat.devsofthecoast.vectortechincaltest.R
 import cat.devsofthecoast.vectortechincaltest.databinding.ItemviewUserdataBinding
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.dw.UserDataWrapper
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.listener.GithubUsersListener
@@ -33,9 +34,8 @@ class UserDataViewHolder(parent: ViewGroup) :
 
         Glide.with(itemView)
             .load(dataWrapper.apiUser.avatar_url)
-//            .placeholder(R.drawable.ic_profile_placeholder)
-//            .error(R.drawable.ic_profile_placeholder)
             .transform(CircleCrop())
+            .placeholder(R.drawable.progress_animation)
             .into(binding.ivUserAvatar)
 
         itemView.setOnClickListener {
