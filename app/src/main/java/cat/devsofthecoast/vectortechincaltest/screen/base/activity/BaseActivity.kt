@@ -1,4 +1,4 @@
-package cat.devsofthecoast.vectortechincaltest.screen.activity.base
+package cat.devsofthecoast.vectortechincaltest.screen.base.activity
 
 import android.os.Bundle
 import androidx.annotation.CallSuper

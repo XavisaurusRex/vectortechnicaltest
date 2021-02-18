@@ -5,7 +5,10 @@ import cat.devsofthecoast.vectortechincaltest.common.di.presentation.Presentatio
 import cat.devsofthecoast.vectortechincaltest.databinding.ActivityUserListBinding
 import cat.devsofthecoast.vectortechincaltest.networking.GithubUsersRepository
 import cat.devsofthecoast.vectortechincaltest.networking.api.ApiUser
-import cat.devsofthecoast.vectortechincaltest.screen.activity.base.BaseActivity
+import cat.devsofthecoast.vectortechincaltest.screen.base.activity.BaseActivity
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.GithubUsersAdapter
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.dw.UserDataWrapper
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,21 +33,37 @@ class UserListActivity : BaseActivity() {
         binding = ActivityUserListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.rcyGithubUsers.adapter = GithubUsersAdapter()
 
+        requestUsersData(0, 20)
+
+    }
+
+    private fun requestUsersData(page: Int, itemsInPage: Int) {
         coroutineScope.launch {
 
-            binding.tvMain.text = "LOADING"
+            Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_SHORT).show()
             val response: Response<List<ApiUser>> = withContext(Dispatchers.Default) {
-                githubUsersRepository.lastActiveQuestions()
+                githubUsersRepository.lastActiveQuestions(page, itemsInPage)
             }
             if (response.isSuccessful) {
-                response.body()?.forEach {
-                    binding.tvMain.text = binding.tvMain.text.toString() + "\n USER -> " + it.username
+                Snackbar.make(binding.root, "LOADED USERS", Snackbar.LENGTH_SHORT).show()
+
+                response.body()?.also {
+                    val userDataWrappers: ArrayList<UserDataWrapper> = arrayListOf()
+                    it.forEach { apiUsert ->
+                        userDataWrappers.add(UserDataWrapper(apiUsert))
+                    }
+                    (binding.rcyGithubUsers.adapter as GithubUsersAdapter).addData(userDataWrappers)
+
                 }
+//                response.body()?.forEach {
+//
+//                    binding.tvMain.text.toString() + "\n USER -> " + it.username
+//                }
             } else {
-                binding.tvMain.text = "ERROR... " + response.errorBody().toString()
+                Snackbar.make(binding.root, "ERROR...", Snackbar.LENGTH_SHORT).show()
             }
         }
-        binding.tvMain.text
     }
 }
