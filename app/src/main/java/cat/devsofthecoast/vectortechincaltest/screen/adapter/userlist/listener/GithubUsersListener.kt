@@ -1,4 +1,4 @@
-package cat.devsofthecoast.vectortechincaltest.screen.adapter.listener
+package cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.listener
 
 import cat.devsofthecoast.vectortechincaltest.networking.api.ApiUser
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.dw.BaseDataWrapper

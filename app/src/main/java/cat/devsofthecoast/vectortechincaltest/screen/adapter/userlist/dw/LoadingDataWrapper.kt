@@ -1,6 +1,6 @@
-package cat.devsofthecoast.vectortechincaltest.screen.adapter.dw
+package cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.dw
 
-import cat.devsofthecoast.vectortechincaltest.screen.adapter.GithubUsersAdapter
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.GithubUsersAdapter
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.dw.BaseDataWrapper
 
 class LoadingDataWrapper : BaseDataWrapper() {

@@ -5,9 +5,10 @@ import cat.devsofthecoast.vectortechincaltest.common.di.presentation.Presentatio
 import cat.devsofthecoast.vectortechincaltest.databinding.ActivityUserListBinding
 import cat.devsofthecoast.vectortechincaltest.networking.GithubUsersRepository
 import cat.devsofthecoast.vectortechincaltest.networking.api.ApiUser
-import cat.devsofthecoast.vectortechincaltest.screen.adapter.GithubUsersAdapter
-import cat.devsofthecoast.vectortechincaltest.screen.adapter.dw.UserDataWrapper
-import cat.devsofthecoast.vectortechincaltest.screen.adapter.listener.GithubUsersListener
+import cat.devsofthecoast.vectortechincaltest.screen.ScreensNavigator
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.GithubUsersAdapter
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.dw.UserDataWrapper
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.listener.GithubUsersListener
 import cat.devsofthecoast.vectortechincaltest.screen.base.activity.BaseActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +25,9 @@ class UserListActivity : BaseActivity(), GithubUsersListener {
 
     @Inject
     lateinit var githubUsersRepository: GithubUsersRepository
+
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
 
     override fun injectView(presentationComponent: PresentationComponent) {
         presentationComponent.inject(this)
@@ -46,15 +50,15 @@ class UserListActivity : BaseActivity(), GithubUsersListener {
 
             Snackbar.make(binding.root, "Loading", Snackbar.LENGTH_SHORT).show()
             val response: Response<List<ApiUser>> = withContext(Dispatchers.Default) {
-                githubUsersRepository.lastActiveQuestions(page, itemsInPage)
+                githubUsersRepository.requestUserList(page, itemsInPage)
             }
             if (response.isSuccessful) {
                 Snackbar.make(binding.root, "LOADED USERS", Snackbar.LENGTH_SHORT).show()
 
                 response.body()?.also {
                     val userDataWrappers: ArrayList<UserDataWrapper> = arrayListOf()
-                    it.forEach { apiUsert ->
-                        userDataWrappers.add(UserDataWrapper(apiUsert))
+                    it.forEach { apiUser ->
+                        userDataWrappers.add(UserDataWrapper(apiUser))
                     }
                     (binding.rcyGithubUsers.adapter as GithubUsersAdapter).addData(userDataWrappers)
 
@@ -75,6 +79,7 @@ class UserListActivity : BaseActivity(), GithubUsersListener {
             "USER -> " + apiUser.username + " Selected!",
             Snackbar.LENGTH_SHORT
         ).show()
+        screensNavigator.toUserDetails(apiUser.username)
     }
 
     override fun loadMoreUsers(page: Int) {

@@ -1,12 +1,10 @@
-package cat.devsofthecoast.vectortechincaltest.screen.adapter.vh
+package cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.vh
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import cat.devsofthecoast.vectortechincaltest.R
 import cat.devsofthecoast.vectortechincaltest.databinding.ItemviewUserdataBinding
-import cat.devsofthecoast.vectortechincaltest.screen.adapter.dw.UserDataWrapper
-import cat.devsofthecoast.vectortechincaltest.screen.adapter.listener.GithubUsersListener
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.dw.UserDataWrapper
+import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.listener.GithubUsersListener
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.dw.BaseDataWrapper
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.vh.BaseViewHolder
 

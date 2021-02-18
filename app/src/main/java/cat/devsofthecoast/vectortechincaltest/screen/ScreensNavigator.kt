@@ -9,7 +9,7 @@ class ScreensNavigator (private val activity: AppCompatActivity) {
         activity.onBackPressed()
     }
 
-    fun toQuestionDetails(questionId: String) {
-        UserDetailsActivity.start(activity, questionId)
+    fun toUserDetails(userId: String) {
+        UserDetailsActivity.start(activity, userId)
     }
 }
