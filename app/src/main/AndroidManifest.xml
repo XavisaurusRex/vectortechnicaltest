@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".screen.activity.UserDetailsActivity"
-            android:theme="@style/Theme.Design.NoActionBar" />
+            android:theme="@style/Theme.VectorTechincalTest.NoActionBar" />
     </application>
 
 </manifest>

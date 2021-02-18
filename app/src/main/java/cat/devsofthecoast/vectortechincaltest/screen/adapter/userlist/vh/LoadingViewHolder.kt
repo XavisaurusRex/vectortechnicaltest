@@ -6,6 +6,8 @@ import cat.devsofthecoast.vectortechincaltest.databinding.ItemviewLoadingBinding
 import cat.devsofthecoast.vectortechincaltest.screen.adapter.userlist.listener.GithubUsersListener
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.dw.BaseDataWrapper
 import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.vh.BaseViewHolder
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 
 class LoadingViewHolder(parent: ViewGroup) : BaseViewHolder<BaseDataWrapper, GithubUsersListener>(
     ItemviewLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false).root

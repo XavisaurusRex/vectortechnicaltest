@@ -3,6 +3,7 @@ package cat.devsofthecoast.vectortechincaltest.screen.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import cat.devsofthecoast.vectortechincaltest.R
 import cat.devsofthecoast.vectortechincaltest.common.di.presentation.PresentationComponent
 import cat.devsofthecoast.vectortechincaltest.databinding.ActivityUserDetailBinding
@@ -21,6 +22,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class UserDetailsActivity : BaseActivity() {
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
     private lateinit var binding: ActivityUserDetailBinding
@@ -37,8 +39,10 @@ class UserDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true);
 
         binding.rcyUserDetails.adapter = UserDetailsAdapter()
 
@@ -47,9 +51,15 @@ class UserDetailsActivity : BaseActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun getUserIdFromExtras(): String? {
         return intent.extras?.getString(EXTRA_USER_ID);
-
     }
 
     private fun requestUserDetails(userId: String) {
