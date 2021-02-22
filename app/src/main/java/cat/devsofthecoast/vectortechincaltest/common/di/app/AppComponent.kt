@@ -5,7 +5,7 @@ import cat.devsofthecoast.vectortechincaltest.common.di.activity.ActivityModule
 import dagger.Component
 
 @AppScope
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class, RepositoryModule::class])
 interface AppComponent {
 
     fun newActivityComponent(activityModule: ActivityModule): ActivityComponent

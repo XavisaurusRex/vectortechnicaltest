@@ -18,11 +18,6 @@ class AppModule(val application: Application) {
 
     @Provides
     @AppScope
-    fun githubUsersApi(@GithubApiScope retrofit: Retrofit) =
-        retrofit.create(GithubUsersRepository::class.java)
-
-    @Provides
-    @AppScope
     @GithubApiScope
     fun retrofit(@GithubApiScope okHttpClient: OkHttpClient): Retrofit {
         //https://api.github.com/users?page=2&per_page=3

@@ -4,7 +4,7 @@ import cat.devsofthecoast.vectortechincaltest.common.di.presentation.Presentatio
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(modules = [ActivityModule::class])
+@Subcomponent(modules = [ActivityModule::class, UseCaseModule::class])
 interface ActivityComponent {
 
     fun newPresentationComponent(): PresentationComponent

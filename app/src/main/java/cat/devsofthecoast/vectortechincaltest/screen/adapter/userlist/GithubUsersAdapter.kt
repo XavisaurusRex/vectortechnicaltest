@@ -13,6 +13,10 @@ import cat.devsofthecoast.vectortechincaltest.screen.base.adapter.vh.BaseViewHol
 class GithubUsersAdapter() :
     BaseAdapter<BaseDataWrapper, BaseViewHolder<BaseDataWrapper, GithubUsersListener>, GithubUsersListener>() {
 
+    constructor(listener: GithubUsersListener) : this() {
+        this.listener = listener
+    }
+
     override val data: ArrayList<BaseDataWrapper> = arrayListOf()
 
     override fun onCreateViewHolder(

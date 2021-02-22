@@ -3,8 +3,10 @@ package cat.devsofthecoast.vectortechincaltest.common.di.activity
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import cat.devsofthecoast.vectortechincaltest.VTTViewModelFactory
 import cat.devsofthecoast.vectortechincaltest.screen.navigator.DialogsNavigator
 import cat.devsofthecoast.vectortechincaltest.screen.navigator.ScreensNavigator
+import cat.devsofthecoast.vectortechincaltest.userlist.domain.usecases.GetPaginatedUsersUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -15,6 +17,10 @@ class ActivityModule(
 
     @Provides
     fun activity() = activity
+
+    @Provides
+    fun provideViewModelFactory(getPaginatedUsersUseCase: GetPaginatedUsersUseCase): VTTViewModelFactory =
+        VTTViewModelFactory(getPaginatedUsersUseCase)
 
     @Provides
     @ActivityScope
