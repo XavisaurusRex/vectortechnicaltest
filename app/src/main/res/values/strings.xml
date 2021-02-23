@@ -33,6 +33,8 @@
     <string name="activity_user_detail_createdat">created_at</string>
     <string name="activity_user_detail_updatedat">updated_at</string>
     <string name="dialog_default_loading_message">Please wait…</string>
+    <string name="dialog_default_error_message">An unexpected error has occurred</string>
+    <string name="dialog_default_error_action">Dismiss</string>
 
     <string name="dialog_userslist_loading_message">Requesting users…</string>
     <string name="dialog_userdetails_loading_message">Requesting %s details…</string>

@@ -1,0 +1,3 @@
+package cat.devsofthecoast.vectortechincaltest.common.dependencyinjection.app
+
+annotation class GithubApiScope
