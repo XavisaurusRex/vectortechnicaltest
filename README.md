@@ -26,3 +26,10 @@ https://api.github.com/users/{userId}
 
 Cualquier duda/consulta/critica no dudéis en poneros en contacto conmigo por favor.
 
+![User List](/images/01_apppreview.png)
+
+![User List with loading](/images/02_apppreview.png)
+
+![User Detail](/images/03_apppreview.png)
+
+![User Detail collapsed foto/title](/images/04_apppreview.png)
