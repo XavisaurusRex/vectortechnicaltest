@@ -5,7 +5,7 @@ Descripción general
 Una aplicacion que consulta una lista de usuarios con paginacion y los muestra en una lista.
 Se puede acceder al detalle de cualquier usuario pulsando en la lista.
 
-### Stack tecnologico:
+### Stack tecnológico:
 Kotlin
 MVVM
 Coroutines
@@ -24,5 +24,5 @@ https://api.github.com/users
 
 https://api.github.com/users/{userId}
 
-Cualquier duda/consulta/critica no dudeis en contactarme por favor.
+Cualquier duda/consulta/critica no dudéis en poneros en contacto conmigo por favor.
 
