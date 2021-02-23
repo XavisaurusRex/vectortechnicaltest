@@ -6,17 +6,17 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import cat.devsofthecoast.vectortechincaltest.R
-import cat.devsofthecoast.vectortechincaltest.common.view.viewmodel.VTTViewModelFactory
-import cat.devsofthecoast.vectortechincaltest.common.dependencyinjection.presentation.PresentationComponent
-import cat.devsofthecoast.vectortechincaltest.databinding.ActivityUserDetailBinding
 import cat.devsofthecoast.vectortechincaltest.common.data.repository.GithubUsersRepository
-import cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.adapter.UserDetailsAdapter
+import cat.devsofthecoast.vectortechincaltest.common.dependencyinjection.presentation.PresentationComponent
 import cat.devsofthecoast.vectortechincaltest.common.view.activity.BaseActivity
-import cat.devsofthecoast.vectortechincaltest.common.view.viewmodel.Resource
-import cat.devsofthecoast.vectortechincaltest.feature.userdetail.domain.model.UserDetails
 import cat.devsofthecoast.vectortechincaltest.common.view.navigator.DialogsNavigator
 import cat.devsofthecoast.vectortechincaltest.common.view.navigator.ScreensNavigator
-import cat.devsofthecoast.vectortechincaltest.feature.userlist.view.viewmodel.UserDetailsViewModel
+import cat.devsofthecoast.vectortechincaltest.common.view.viewmodel.Resource
+import cat.devsofthecoast.vectortechincaltest.common.view.viewmodel.VTTViewModelFactory
+import cat.devsofthecoast.vectortechincaltest.databinding.ActivityUserDetailBinding
+import cat.devsofthecoast.vectortechincaltest.feature.userdetail.domain.model.UserDetails
+import cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.adapter.UserDetailsAdapter
+import cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.viewmodel.UserDetailsViewModel
 import com.bumptech.glide.Glide
 import javax.inject.Inject
 
@@ -49,13 +49,15 @@ class UserDetailsActivity : BaseActivity() {
         binding = ActivityUserDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setUpObservers()
-
         binding.rcyUserDetails.adapter = UserDetailsAdapter()
+
+        setUpObservers()
 
         getUserIdFromExtras()?.let {
             binding.toolbar.title = it
-            viewModel.updateUserDetails(it)
+            if (viewModel.usersDetailsLoaded.not()) {
+                viewModel.updateUserDetails(it)
+            }
         }
 
         setSupportActionBar(binding.toolbar)
@@ -72,6 +74,7 @@ class UserDetailsActivity : BaseActivity() {
             is Resource.Loading -> dialogsNavigator.showLoading(getString(R.string.dialog_userslist_loading_message))
             is Resource.Success -> {
                 dialogsNavigator.hideLoading()
+                viewModel.changeUserListStateToLoaded()
                 manageSuccessResponse(result.data)
             }
             is Resource.UnknownError -> {

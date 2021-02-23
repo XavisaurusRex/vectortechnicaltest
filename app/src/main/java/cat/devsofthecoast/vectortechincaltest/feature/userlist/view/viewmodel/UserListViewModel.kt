@@ -1,4 +1,4 @@
-package cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.viewmodel
+package cat.devsofthecoast.vectortechincaltest.feature.userlist.view.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

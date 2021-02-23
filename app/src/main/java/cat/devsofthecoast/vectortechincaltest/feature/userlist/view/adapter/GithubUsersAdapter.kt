@@ -1,7 +1,6 @@
 package cat.devsofthecoast.vectortechincaltest.feature.userlist.view.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import cat.devsofthecoast.vectortechincaltest.common.view.adapter.BaseAdapter
 import cat.devsofthecoast.vectortechincaltest.common.view.adapter.dw.BaseDataWrapper
 import cat.devsofthecoast.vectortechincaltest.common.view.adapter.vh.BaseViewHolder
@@ -38,7 +37,6 @@ class GithubUsersAdapter() :
         if (data.isEmpty()) {
             data.addAll(userDataViewHolders)
             positionStart = 0
-            // +1 for loading wrapper
             itemCount = userDataViewHolders.size + 1
         } else {
             data.removeLast()

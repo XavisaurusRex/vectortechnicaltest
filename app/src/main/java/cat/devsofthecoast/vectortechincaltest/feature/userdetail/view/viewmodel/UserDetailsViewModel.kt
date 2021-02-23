@@ -1,4 +1,4 @@
-package cat.devsofthecoast.vectortechincaltest.feature.userlist.view.viewmodel
+package cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,9 +15,17 @@ class UserDetailsViewModel(
     private val getUserDetailsUseCase: GetUserDetailsUseCase
 ) : ViewModel() {
 
+    private var _usersDetailsLoaded: Boolean = false
+    val usersDetailsLoaded: Boolean
+        get() = _usersDetailsLoaded
+
     private var _userDetails = MutableLiveData<Resource<UserDetails>>()
     val userDetails: LiveData<Resource<UserDetails>>
         get() = _userDetails
+
+    fun changeUserListStateToLoaded() {
+        _usersDetailsLoaded = true
+    }
 
     fun updateUserDetails(userId: String, showLoading: Boolean = true) {
         viewModelScope.launch(Dispatchers.IO) {

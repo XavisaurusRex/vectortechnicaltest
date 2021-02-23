@@ -15,7 +15,7 @@ import cat.devsofthecoast.vectortechincaltest.common.view.activity.BaseActivity
 import cat.devsofthecoast.vectortechincaltest.common.view.viewmodel.Resource
 import cat.devsofthecoast.vectortechincaltest.common.view.navigator.DialogsNavigator
 import cat.devsofthecoast.vectortechincaltest.common.view.navigator.ScreensNavigator
-import cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.viewmodel.UserListViewModel
+import cat.devsofthecoast.vectortechincaltest.feature.userlist.view.viewmodel.UserListViewModel
 import javax.inject.Inject
 
 class UserListActivity : BaseActivity(), GithubUsersListener {

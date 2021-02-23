@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import cat.devsofthecoast.vectortechincaltest.feature.userlist.domain.usecase.GetPaginatedUsersUseCase
 import cat.devsofthecoast.vectortechincaltest.feature.userdetail.domain.usecase.GetUserDetailsUseCase
-import cat.devsofthecoast.vectortechincaltest.feature.userlist.view.viewmodel.UserDetailsViewModel
-import cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.viewmodel.UserListViewModel
+import cat.devsofthecoast.vectortechincaltest.feature.userdetail.view.viewmodel.UserDetailsViewModel
+import cat.devsofthecoast.vectortechincaltest.feature.userlist.view.viewmodel.UserListViewModel
 
 class VTTViewModelFactory(
     private val getPaginatedUsersUseCase: GetPaginatedUsersUseCase,
