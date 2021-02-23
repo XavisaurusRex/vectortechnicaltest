@@ -52,6 +52,6 @@ class UserListViewModel(
     }
 
     companion object {
-        private const val DEFAULT_USERS_ENTRY_COUNT: Int = 5
+        private const val DEFAULT_USERS_ENTRY_COUNT: Int = 15
     }
 }
