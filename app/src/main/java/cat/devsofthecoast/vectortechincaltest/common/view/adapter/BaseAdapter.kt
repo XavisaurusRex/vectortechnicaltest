@@ -15,6 +15,11 @@ abstract class BaseAdapter<DW, VH, LT> : RecyclerView.Adapter<VH>()
         holder.bindViewHolder(data[position], listener, position)
     }
 
+    override fun onViewAttachedToWindow(holder: VH) {
+        super.onViewAttachedToWindow(holder)
+        holder.onViewAttachedToWindow(listener)
+    }
+
     override fun getItemCount(): Int = data.size
 
     override fun getItemViewType(position: Int): Int = data[position].viewType

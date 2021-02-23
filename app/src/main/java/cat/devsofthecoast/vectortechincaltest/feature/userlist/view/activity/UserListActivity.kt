@@ -84,7 +84,7 @@ class UserListActivity : BaseActivity(), GithubUsersListener {
         screensNavigator.toUserDetails(apiUser.username)
     }
 
-    override fun loadMoreUsers(page: Int) {
+    override fun loadMoreUsers() {
         viewModel.updateUsersList(false)
     }
 }

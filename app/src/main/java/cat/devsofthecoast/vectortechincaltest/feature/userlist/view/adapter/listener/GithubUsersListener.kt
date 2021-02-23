@@ -8,6 +8,6 @@ interface GithubUsersListener: BaseAdapterListener<BaseDataWrapper> {
 
     fun onUserSelected(apiUser: ApiUser)
 
-    fun loadMoreUsers(page: Int)
+    fun loadMoreUsers()
 
 }

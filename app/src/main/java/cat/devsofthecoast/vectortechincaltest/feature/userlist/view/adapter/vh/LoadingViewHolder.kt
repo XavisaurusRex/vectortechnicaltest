@@ -10,12 +10,15 @@ import cat.devsofthecoast.vectortechincaltest.common.view.adapter.vh.BaseViewHol
 class LoadingViewHolder(parent: ViewGroup) : BaseViewHolder<BaseDataWrapper, GithubUsersListener>(
     ItemviewLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false).root
 ) {
-
     override fun bindViewHolder(
         dataWrapper: BaseDataWrapper,
         listener: GithubUsersListener?,
         position: Int
     ) {
-        listener?.loadMoreUsers(position / 20)
+        // no op
+    }
+
+    override fun onViewAttachedToWindow(listener: GithubUsersListener?) {
+        listener?.loadMoreUsers()
     }
 }
