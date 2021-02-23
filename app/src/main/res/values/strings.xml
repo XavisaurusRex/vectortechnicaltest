@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">VectorTechincalTest</string>
+    <string name="activity_user_detail_usenameid">login</string>
+    <string name="activity_user_detail_id">id</string>
+    <string name="activity_user_detail_node_id">node_id</string>
+    <string name="activity_user_detail_avatarurl">avatar_url</string>
+    <string name="activity_user_detail_gravatarid">gravatar_id</string>
+    <string name="activity_user_detail_url">url</string>
+    <string name="activity_user_detail_htmlurl">html_url</string>
+    <string name="activity_user_detail_followersurl">followers_url</string>
+    <string name="activity_user_detail_followingurl">following_url</string>
+    <string name="activity_user_detail_gistsurl">gists_url</string>
+    <string name="activity_user_detail_starredurl">starred_url</string>
+    <string name="activity_user_detail_subscriptionsurl">subscriptions_url</string>
+    <string name="activity_user_detail_organizationsurl">organizations_url</string>
+    <string name="activity_user_detail_reposurl">repos_url</string>
+    <string name="activity_user_detail_eventsurl">events_url</string>
+    <string name="activity_user_detail_receivedeventsurl">received_events_url</string>
+    <string name="activity_user_detail_type">type</string>
+    <string name="activity_user_detail_siteadmin">site_admin</string>
+    <string name="activity_user_detail_name">name</string>
+    <string name="activity_user_detail_company">company</string>
+    <string name="activity_user_detail_blog">blog</string>
+    <string name="activity_user_detail_location">location</string>
+    <string name="activity_user_detail_email">email</string>
+    <string name="activity_user_detail_hireable">hireable</string>
+    <string name="activity_user_detail_bio">bio</string>
+    <string name="activity_user_detail_twitterusername">twitter_username</string>
+    <string name="activity_user_detail_publicrepos">public_repos</string>
+    <string name="activity_user_detail_publicgists">public_gists</string>
+    <string name="activity_user_detail_followers">followers</string>
+    <string name="activity_user_detail_following">following</string>
+    <string name="activity_user_detail_createdat">created_at</string>
+    <string name="activity_user_detail_updatedat">updated_at</string>
+    <string name="dialog_default_loading_message">Please wait…</string>
+    <string name="dialog_default_error_message">An unexpected error has occurred</string>
+    <string name="dialog_default_error_action">Dismiss</string>
+
+    <string name="dialog_userslist_loading_message">Requesting users…</string>
+    <string name="dialog_userdetails_loading_message">Requesting %s details…</string>
+    <string name="itemview_userdetails_row_default_value_empty">-</string>
+</resources>
