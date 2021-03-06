@@ -3,5 +3,9 @@ android:
   components:
     - android-30
     - build-tools-30.0
+
+before_install:
+  - chmod +x gradlew
+
 script:
   - ./gradlew clean assembleDebug assembleRelease testDebug
