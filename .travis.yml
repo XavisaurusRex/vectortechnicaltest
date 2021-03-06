@@ -4,11 +4,8 @@ android:
     - android-28
     - build-tools-29.0.0
 
-env:
-  global:
-    # install timeout in minutes (2 minutes by default)
-    - ADB_INSTALL_TIMEOUT=8
+before_install:
+  - chmod +x gradlew
 
-# Run assemble and unit tests
 script:
   - ./gradlew clean assembleDebug assembleRelease testDebug
